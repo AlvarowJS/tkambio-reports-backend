@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\LoginController as Login;
 */
 Route::post('/login',                      [Login::class, 'store']);
 Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/validate-token',             [Login::class, 'validateToken']);
     Route::post('/generate-report',        [Report::class, 'generateReport']);
     Route::get('/get-report/{report_id}',  [Report::class, 'getReport']);
     Route::get('/list-reports',            [Report::class, 'listReport']);

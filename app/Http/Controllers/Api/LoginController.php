@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\LoginResource;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -26,8 +27,16 @@ class LoginController extends Controller
 
         return response()->json([
             'data' => new LoginResource($user),
-            'token' => $user->createToken('token')->plainTextToken            
+            'token' => $user->createToken('token')->plainTextToken
         ], Response::HTTP_OK);
     }
-    public function login(Request $request) {}
+    public function validateToken(Request $request)
+    {        
+        $token = $request->header('Authorization');
+        $user = Auth::user();
+        return response()->json([
+            'data' => new LoginResource($user),
+            'token' => $token
+        ], Response::HTTP_OK);
+    }
 }
